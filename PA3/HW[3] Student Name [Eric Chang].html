@@ -1,0 +1,154 @@
+
+<!-- saved from url=(0071)http://www.cs.bu.edu/faculty/betke/cs440/restricted/p1/p1-template.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> CS440 Homework Template: HW[3] Student Name [Eric Chang]  </title>
+<style>
+<!--
+body{
+font-family: 'Trebuchet MS', Verdana;
+}
+p{
+font-family: 'Trebuchet MS', Times;
+margin: 10px 10px 15px 20px;
+}
+h3{
+margin: 5px;
+}
+h2{
+margin: 10px;
+}
+h1{
+margin: 10px 0px 0px 20px;
+}
+div.main-body{
+align:center;
+margin: 30px;
+}
+hr{
+margin:20px 0px 20px 0px;
+}
+-->
+</style>
+</head>
+
+<body>
+<center>
+<a href="http://www.bu.edu/"><img border="0" src="./HW[3] Student Name [Eric Chang]_files/bu-logo.gif" width="119" height="120"></a>
+</center>
+
+<h1>4x4x4 Tic-Tac-Toe AI Game</h1>
+<p> 
+ CS 440/640 Programming assignment 3 <br>
+ Eric Chang <br>
+ Edward Yun <br>
+    Date 4/24/19
+</p>
+
+<div class="main-body">
+<hr>
+<h2> Problem Definition </h2>
+<p>
+We want to devlop an AI that can play and consistently win a game of 4x4x4 Tic-Tac-Toe. In order to do this we need to implement our AI using minimax with alpha-beta pruning and heuristics value assignments to give it the best chance on winning near 100% of the time. This result is useful as we would be able to determine that these algorithms can significantly outdo the random AI algorithm in a game of Tic-Tac-Toe. I assume that we would be able to come out with the results we expect, but with some difficulties on getting it to be very near 100%.
+</p>
+
+<hr>
+<h2> Method and Implementation </h2>
+<p>Give a concise description of the implemented method. For example, you might
+  describe the motivation of your idea, the algorithmic steps of your methods, or
+  the mathematical formulation of your method.
+  We utilized minimax with heuristics value assignemnt to future board states to solve our problem. Below will describe how each help solve our problem and how they were developed (pseudocode):
+  <li>Minimax with alpha-beta pruning: This is a recursive algorithm used to help the AI determine what the best move to react to the other player's move, or in this case the other AI's move. By determining your oponent's most optimal move and assinging that the minimum value and giving you the most opimal move to counter. And we implemented alpha beta pruning by adding the parameters alpha and beta into the minimax. And made alpha = max(alpha, best) and if (beta <= alpha) then terminate, and then beta = min(beta, best) and terminate if beta <= alpha. We used the helper function minimax to accomplish this.</li>
+     <td> <img src="./HW[3] Student Name [Eric Chang]_files/minimax.jpg"> </td>
+  <li>Heuristics: This is used to give future board states found by the AIs a value to assist the minmax function determine the most optimal choice. We loop through every possible 4 in a row winning outcome, and if there is a 4 in a row for the Max player the score gets +10, and if it is 4 in a row for the Min player then the score gets -10. We used the helper function labled evaluate to calculate and assign the heuristic values.</li>
+</p>
+
+
+<hr>
+<h2>Experiments</h2>
+<p>
+We did 100 test on two different experiment sets: 1.) our AI vs the random AI and 2.) our AI vs itself (with similar settings). We then measured the average time it took per move and kept track of the win rate.  </p>
+<p>
+Relevant parameter values: Depth of the recursive calls in minimax stops at depth=3, Score +10 when max player wins, Score -10 when min opponent wins.
+
+Metrics: 
+Experiment 1: (AI vs Random) 100 Trials, 100% win-rate for AI, runtime average per move = 8.74 ms
+Experiment 2: (AI VS AI) 100 Trials, 100% win-rate for player who goes fisrt, runtime average per move = 9.98 ms 
+</p>
+
+
+<hr>
+<h2> Results</h2>
+
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+<td> Trial </td> <td> Result Image</td> 
+</tr>
+<tr>
+  <td> Our AI vs Random AI </td> 
+  <td> <img src="./HW[3] Student Name [Eric Chang]_files/AIvsRandom.png"> </td> 
+</tr> 
+
+<tr>
+  <td> Our AI vs Our AI </td> 
+  <td> <img src="./HW[3] Student Name [Eric Chang]_files/AIvsSelf.png"> </td> 
+</tr> 
+</tbody></table>
+</p>
+
+
+
+<hr>
+<h2> Discussion </h2>
+
+<p> 
+Discuss your method and results:
+</p><ul>
+<li>Strengths are that it can continuously win against a random AI, as it seems to brute force placing down 4 in a row pieces. However it struggles to play against itself in the sense that it does not put enough emphasis on blocking the other's moves to prevent it from winning and instead just focuses on winning on its own.</li>
+<li>
+   Results show that it is very successful against random as in our 100 tests it never lost and had an average response time of 8.74ms/move. Slightly lower than the 9.98ms/move of Ai vs Ai as the random ai choice most likely took less time than our AI's decision making </li>
+
+<li>   
+The results of AI vs AI, it struggled to actually block the other player to prevent the other player from winning so for whoever goes first in our AI vs itself will win every time. 
+Furthermore in the AI vs itself, in the 100 tests, every single test the Ais took the same moves except for who goes first and as a result which player was able to complete 4 in a row first. This was most likely due to a not fully fleshed out heuristic values assignment strategy, as it only took in to account for the four in a row board states and put no value on a favorable board state of 2 or 3 in a row pieces.
+</li>
+<li>
+In future work what we can do is improve our heuristic values by giving more values for when there are two in a row or three in a row to help the AI determine when to block the other player's move.</li> 
+</ul>
+<p></p>
+
+<hr>
+<h2> Conclusions </h2>
+
+<p>
+Our conclusion is that our AI is very good at being able to defeat a random AI, however against a stronger AI it struggles to determine when it needs to block and what to do when it is blocked. It also does not react well to getting blocked. This could be because we did not use a while loop in our implemntation and we did not put the scores into an array that it could fall back on if a path got blocked.
+</p>
+
+
+<hr>
+<h2> Credits and Bibliography </h2>
+<p>
+
+Cite any papers or other references you consulted while developing
+your solution.  Citations to papers should include the authors, the
+year of publication, the title of the work, and the publication
+information (e.g., book name and publisher; conference proceedings and
+location; journal name, volume and pages; technical report and
+institution).  
+
+</p><p>
+Material on the web should include the url and date of access.
+</p>
+
+<p>
+Credit any joint work or discussions with your classmates. 
+</p>
+<hr>
+</div>
+
+
+
+
+
+</body></html>
